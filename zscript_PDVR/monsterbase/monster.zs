@@ -94,7 +94,7 @@ class PDMonster:actor{
 			// blunt force damage squares with absorbed damage
 			// fortunately it's divided by 10 *before square*
 			// and causes no wounding
-			int bluntforce = absorbed / 10 + 1;
+			int bluntforce = absorbed / 10 + 2;
 			bluntforce *= bluntforce;
 			// blunt force will never be higher than 2/3 of total absorbed damage
 			bluntforce = min(bluntforce,absorbed * (2/3));
