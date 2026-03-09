@@ -1,0 +1,12 @@
+server bool PD_TrackDebug = false;
+server bool PD_RoomscaleDebug = false;
+server bool PD_WeapPosDebug = false;
+server bool PD_DamageDebug = false;
+server bool PD_ArmorDebug = false;
+server bool PD_HeadshotDebug = false;
+server bool PD_Encumberance = true;
+server bool PD_FriendlyHud = true;
+server float PD_LaserPointerDist = 1.0;
+server float PD_PlayerDamage = 1.0;
+server bool PD_QuickPumpReload = true;
+user bool Experimental = true;

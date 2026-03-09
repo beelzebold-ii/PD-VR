@@ -1,0 +1,273 @@
+// pistol
+Model PDPistol
+{ 
+	Path "Models/Weapons/Hud/Pistol"
+	Model 0 "Pistol.md3"
+	Skin 0 "Pistol.png"
+	Scale 1.0 1.0 1.0
+	Offset 0.0 0.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex PISG A 0 0   FrameIndex PISG A 1 0
+}
+Model PDPistol
+{ 
+	Path "Models/Weapons/Hud/Pistol"
+	Model 0 "Pistol.md3"
+	Skin 0 "Pistol.png"
+	Scale 1.0 1.0 1.0
+	Offset 0.0 2.0 -1.0
+	PitchOffset 10.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex PISG B 0 1   FrameIndex PISG B 1 1
+}
+Model PDPistol
+{ 
+	Path "Models/Weapons/Hud/Pistol"
+	Model 0 "Pistol.md3"
+	Skin 0 "Pistol.png"
+	Scale 1.0 1.0 1.0
+	Offset 0.0 2.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex PISG C 0 2   FrameIndex PISG C 1 2
+}
+Model PDPistol
+{ 
+	Path "Models/Weapons/Hud/Pistol"
+	Model 0 "Pistol.md3"
+	Skin 0 "Pistol.png"
+	Scale 1.0 1.0 1.0
+	Offset 0.0 -8.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex PISG D 0 2   FrameIndex PISG D 1 2
+}
+
+// pump shotgun
+Model PDPumpShotgun
+{ 
+	Path "Models/Weapons/Hud/SHOTGUN"
+	Model 0 "Shotgun.md3"
+	Skin 0 "Shotgun.png"
+	Scale -1.0 1.0 1.0
+	Offset 0.0 0.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHTG A 0 0   FrameIndex SHTG A 1 0
+}
+Model PDPumpShotgun
+{ 
+	Path "Models/Weapons/Hud/SHOTGUN"
+	Model 0 "Shotgun.md3"
+	Skin 0 "Shotgun.png"
+	Scale -1.0 1.0 1.0
+	Offset 0.0 4.0 -6.0
+	PitchOffset 12.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHTG B 0 0   FrameIndex SHTG B 1 0
+}
+Model PDPumpShotgun
+{ 
+	Path "Models/Weapons/Hud/SHOTGUN"
+	Model 0 "Shotgun2.md3"
+	Skin 0 "Shotgun.png"
+	Scale -1.0 1.0 1.0
+	Offset 0.0 2.0 1.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHTG C 0 1   FrameIndex SHTG C 1 1
+}
+
+// double shotgun
+Model PDDoubleShotgun
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG.md3"
+	Skin 0 "DoubleSG.png"
+	
+	Scale 1.0 1.0 1.0
+	INTERPOLATEDOUBLEDFRAMES
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHT2 A 0 0   FrameIndex SHT2 A 2 0
+}
+Model PDDoubleShotgun
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG.md3"
+	Skin 0 "DoubleSG.png"
+	
+	Scale 1.0 1.0 1.0
+	INTERPOLATEDOUBLEDFRAMES
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	Offset 0.0 4.0 -6.0
+	PitchOffset 18.0
+	
+	FrameIndex SHT2 B 0 0   FrameIndex SHT2 B 2 0
+}
+Model PDDoubleShotgun
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG2.md3"
+	Skin 0 "DoubleSG.png"
+	
+	Scale 1.0 1.0 1.0
+	Offset 0.0 0.0 0.0
+	INTERPOLATEDOUBLEDFRAMES
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHT2 C 0 6	   FrameIndex SHT2 C 1 0	   FrameIndex SHT2 C 2 6	   FrameIndex SHT2 C 3 0
+}
+
+// submachinegun
+Model PDKVector
+{
+	Path "Models/kvector"
+	Model 0 "kvector.obj"
+	Skin 0 "kvector.png"
+	
+	Scale -13.0 13.0 13.0
+	Offset 0.0 -30.0 -16.0
+	AngleOffset -90.0
+	
+	FrameIndex PISG A 0 0
+}
+Model PDKVector
+{
+	Path "Models/kvector"
+	Model 0 "kvector.obj"
+	Skin 0 "kvector.png"
+	
+	Scale -13.0 13.0 13.0
+	Offset 0.0 -27.0 -15.0
+	AngleOffset -90.0
+	// I think because the gun is rotated 90 in yaw, this needs to be roll
+	RollOffset 4.0
+	
+	FrameIndex PISG B 0 0
+}
+
+// SIG 552
+Model PDSIG
+{
+	Path "Models/sig552"
+	Model 0 "sig552.obj"
+	Skin 0 "sig552.png"
+	
+	Scale -12.0 12.0 12.0
+	Offset 0.0 -32.0 -14.0
+	AngleOffset -90.0
+	
+	FrameIndex PISG A 0 0
+}
+Model PDSIG
+{
+	Path "Models/sig552"
+	Model 0 "sig552.obj"
+	Skin 0 "sig552.png"
+	
+	Scale -12.0 12.0 12.0
+	Offset 0.0 -28.0 -11.0
+	AngleOffset -90.0
+	RollOffset 5.0
+	
+	FrameIndex PISG B 0 0
+}
+
+// FAMAS
+Model PDFamas
+{
+	Path "Models/famas"
+	Model 0 "famas.obj"
+	Skin 0 "famas.png"
+	
+	Scale -14.0 14.0 14.0
+	Offset 0.0 -32.0 -15.0
+	AngleOffset -90.0
+	
+	FrameIndex PISG A 0 0
+}
+Model PDFamas
+{
+	Path "Models/famas"
+	Model 0 "famas.obj"
+	Skin 0 "famas.png"
+	
+	Scale -14.0 14.0 14.0
+	Offset 0.0 -30.0 -13.0
+	AngleOffset -90.0
+	RollOffset 5.0
+	
+	FrameIndex PISG B 0 0
+}
+
+// machinegun
+Model PDMachinegun
+{
+	Path "Models/Weapons/Hud/CHAINGUN"
+	Model 0 "Chaingun.md3"
+	Skin 0 "Chaingun.png"
+	
+	Scale 0.7 0.9 0.7
+	Offset 0.0 -7.0 0.0
+	PitchOffset -16
+	
+	NOINTERPOLATION
+	
+	FrameIndex CHGG A 0 0
+}
+Model PDMachinegun
+{
+	Path "Models/Weapons/Hud/CHAINGUN"
+	Model 0 "Chaingun2.md3"
+	Skin 0 "Chaingun.png"
+	
+	Scale 0.7 0.9 0.7
+	Offset 0.0 -7.0 0.0
+	PitchOffset -16
+	
+	NOINTERPOLATION
+	
+	FrameIndex CHGG B 0 0
+}
+
+Model PDEmptyOffhand
+{
+	Path "Models/Weapons/Hud/Fist"
+	Model 0 "Fist.md3"
+	Skin 0 "Fist.png"
+	Scale 1.0 1.0 1.0
+	FrameIndex PUNG A 0 16
+}
+Model PDEmptyOnhand
+{
+	Path "Models/Weapons/Hud/Fist"
+	Model 0 "Fist.md3"
+	Skin 0 "Fist.png"
+	Scale 1.0 1.0 1.0
+	FrameIndex PUNG A 0 16
+}

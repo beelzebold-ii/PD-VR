@@ -1,0 +1,33 @@
+AddOptionMenu "OptionsMenu"{
+    Submenu "PDVR Options", "PDVROptions"
+}
+
+OptionMenu "PDVROptions"{
+	Title "Peaceful Destruction VR Options"
+	
+	Option "Friendlier HUD", PD_FriendlyHud, "OnOff"
+	StaticText "Displays full health and armor durability and ammo numbers"
+	StaticText "on the hud, instead of making you keep track."
+	StaticText " "
+	Slider "Laser Dot Range", PD_LaserPointerDist, 0.0,1.0,0.1,1
+	StaticText "How far the laser pointer dot reaches."
+	StaticText " "
+	Option "Encumberance", PD_Encumberance, "OnOff"
+	StaticText "Whether or not your ammo and weapons weigh you down."
+	StaticText " "
+	Slider "Player damage", PD_PlayerDamage, 0.5,1.0,0.1,1
+	StaticText "How much damage PDVR enemies do to the player. Note that this"
+	StaticText "does not affect vanilla enemies and only applies to damage"
+	StaticText "that actually gets through armor. (not blunt force dmg either.)"
+	StaticText " "
+	SubMenu "Experimental QZDoom Settings", "ExperimentalMenu"
+	StaticText " "
+	Option "Hand Tracking Debug", PD_TrackDebug, "OnOff"
+	Option "Roomscale Gesture Debug", PD_RoomscaleDebug, "OnOff"
+	Option "Weapon Position Debug", PD_WeapPosDebug, "OnOff"
+	Option "Damage Debug", PD_DamageDebug, "OnOff"
+	Option "Armor Debug", PD_ArmorDebug, "OnOff"
+	Option "Headshot Debug", PD_HeadshotDebug, "OnOff"
+	StaticText "Some debugging toggles."
+	StaticText " "
+}

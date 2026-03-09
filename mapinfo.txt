@@ -1,0 +1,4 @@
+gameinfo{
+	addeventhandlers = "pd_handtrackhandler","pd_hudhandler"
+	playerclasses = "PDPlayerPawn","PDPArmor","PDPVector","PDPShot","PDPSIG","PDPMgun"
+}

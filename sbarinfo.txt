@@ -1,0 +1,38 @@
+//StatusBar normal {
+//	
+//}
+
+completeborder true;
+
+statusbar normal {
+	//Draw selected inventory item
+	DrawSelectedInventory ITEMFLASH|ALWAYSSHOWCOUNTER|DRAWSHADOW,INDEXFONT,240,185,230,165,untranslated;
+	
+	//Draw armor icon
+	//Outdated; zshud will draw PDArmor instead
+	/*
+	DrawImage ArmorIcon,150,165;
+	IfCvarInt pd_friendlyhud,1{
+		//Draw armor durability
+		DrawNumber 3,INDEXFONT,yellow,armor,WHENNOTZERO|FILLZEROS|DRAWSHADOW|INTERPOLATE(2),165,165;
+	}
+	*/
+	
+	IfCvarInt pd_friendlyhud,1{
+		//Draw health
+		DrawNumber 3,INDEXFONT,red,health,DRAWSHADOW|INTERPOLATE(2),150,165;
+		//Draw bleeding indicator
+		/*InInventory pdwound,1{
+			DrawImage "BLUDC0",120,180;
+			DrawString SMALLFONT,red,"BLEEDING",180,175;
+		}*/
+		
+		//Draw ammo in weapon
+		DrawNumber 3,BIGFONT,darkgrey,ammo1,DRAWSHADOW,80,155;
+	}
+	//Draw ammo reserves for current weapon
+	DrawNumber 3,INDEXFONT,white,ammo2,DRAWSHADOW|ALIGNMENT(LEFT),70,150;
+	
+	//Draw keys
+	DrawKeyBar 6,vertical,reverserows,8,260,150,0,3,10;
+}

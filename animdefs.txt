@@ -1,0 +1,1 @@
+canvastexture HUDCANV 128 32
