@@ -80,7 +80,7 @@ class PDHoloFrontsight:PDWeaponSight{
 		PDWeaponSight.distance 11;
 		+BRIGHT;
 		Renderstyle "Add";
-		Alpha 0.4;
+		//Alpha 0.4;
 	}
 	states{
 	spawn:
@@ -88,14 +88,13 @@ class PDHoloFrontsight:PDWeaponSight{
 		stop;
 	}
 	
-	/*
 	override void tick(){
 		super.tick();
 		
 		// holo reticle should essentially be placed along the gun's direction
 		// vector, but relative to the player's camera
 		// however, it should also disappear if the player isn't looking through the sight
-		
+		/*
 		let pdp = PDPlayerPawn(master);
 		let hands = PD_Hands(pdp.FindInventory("PD_Hands"));
 		
@@ -105,8 +104,10 @@ class PDHoloFrontsight:PDWeaponSight{
 		dir.z = -atvp.y;
 		
 		SetOrigin(pdp.pos + (0,0,pdp.player.viewheight) + (dir * distance),true);
+		*/
+		
+		A_SetRenderStyle(PD_SightAlpha * 0.4,STYLE_ADD);
 	}
-	*/
 }
 
 
@@ -119,7 +120,7 @@ extend class PDSIG{
 }
 class PDSIGBacksight:PDWeaponSight{
 	default{
-		PDWeaponSight.distance -6;
+		PDWeaponSight.distance -9;
 	}
 	states{
 	spawn:
@@ -129,7 +130,7 @@ class PDSIGBacksight:PDWeaponSight{
 }
 class PDSIGFrontsight:PDWeaponSight{
 	default{
-		PDWeaponSight.distance 0;
+		PDWeaponSight.distance -3;
 	}
 	states{
 	spawn:
@@ -195,5 +196,63 @@ class PDMGunFrontsight:PDWeaponSight{
 	spawn:
 		MGST B -1;
 		stop;
+	}
+}
+
+// PLAS
+extend class PDPLAS{
+	override void Sightclasses(){
+		sightclass[0] = "PDPLASBacksight";
+		sightclass[1] = "PDPLASMidsight";
+		sightclass[2] = "PDPLASFrontsight";
+		sightclass[3] = "PDPLASHolosight";
+	}
+}
+class PDPLASBacksight:PDWeaponSight{
+	default{
+		PDWeaponSight.distance -5;
+	}
+	states{
+	spawn:
+		HLST A -1;
+		stop;
+	}
+}
+class PDPLASMidsight:PDWeaponSight{
+	default{
+		PDWeaponSight.distance -2;
+	}
+	states{
+	spawn:
+		HLST A -1;
+		stop;
+	}
+}
+class PDPLASFrontsight:PDWeaponSight{
+	default{
+		PDWeaponSight.distance 1;
+	}
+	states{
+	spawn:
+		HLST A -1;
+		stop;
+	}
+}
+class PDPLASHolosight:PDWeaponSight{
+	default{
+		PDWeaponSight.distance 5;
+		+BRIGHT;
+		Renderstyle "Add";
+	}
+	states{
+	spawn:
+		HLST B -1;
+		stop;
+	}
+	
+	override void tick(){
+		super.tick();
+		
+		A_SetRenderStyle(PD_SightAlpha * 0.6,STYLE_ADD);
 	}
 }

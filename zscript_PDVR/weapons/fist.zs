@@ -4,7 +4,7 @@ class PDEmptyOnHand:PDWeapon{
 		tag "unarmed";
 		weapon.SlotNumber 1;
 		
-		PDWeapon.mass 0.8,1.33;
+		PDWeapon.mass 1.1,1.33;
 	}
 	states{
 	select:
@@ -34,10 +34,6 @@ class PDEmptyOnHand:PDWeapon{
 		goto ready;
 	
 	altfire:
-		TNT1 A 1 A_SelectWeapon("PDInvManager");
-		goto ready;
-	
-	stripnakey:
 		TNT1 A 50;
 		TNT1 A 20 A_DropInventory("PDArmor",1);
 		goto ready;

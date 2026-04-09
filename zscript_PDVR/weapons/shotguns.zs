@@ -12,6 +12,13 @@ class PDPumpShotgun:PDWeapon{
 		super.BeginPlay();
 	}
 	
+	// hud stuff
+	override void DrawWeaponHud(){
+		if(PD_FriendlyHud){
+			statusbar.drawimage(chambered?"ONESHEL":"NONESHEL",(80,145),scale:(2,2));
+		}
+	}
+	
 	override inventory CreateTossable(int amt){
 		inventory inv = super.CreateTossable(amt);
 		PDPumpShotgun(inv).chambered = chambered;
@@ -31,6 +38,7 @@ class PDPumpShotgun:PDWeapon{
 		
 		PDWeapon.mass 1.5,2.2;
 		PDWeapon.twohanded true;
+		PDWeapon.sprite 'SHTG';
 	}
 	
 	states{
@@ -40,16 +48,16 @@ class PDPumpShotgun:PDWeapon{
 	select:
 		TNT1 A 0 A_OnSelect();
 	select2:
-		SHTG A 1 A_Raise(5);
+		TNT1 A 1 A_Raise(5);
 		loop;
 	deselect:
 		TNT1 A 0 A_OnDeselect();
 	deselect2:
-		SHTG A 1 A_Lower(5);
+		TNT1 A 1 A_Lower(5);
 		loop;
 		
 	ready:
-		SHTG A 1{
+		TNT1 A 1{
 			if(invoker.chambered)
 				A_WeaponReady();
 			else
@@ -63,21 +71,21 @@ class PDPumpShotgun:PDWeapon{
 		}
 		loop;
 	fire:
-		SHTG B 4{
+		TNT1 A 4{
 			invoker.chambered = false;
 			A_AlertMonsters(3072 * frandom(1.0,1.5));
-			A_PDBulletAttack(1.7,1.4,12,5,"PDPelletPuff");
+			A_PDBulletAttack(1.7,1.4,12,6,"PDPelletPuff");
 			A_MuzzleClimb(4.,5.,true);
 			A_PlaySound("weapons/shotgun",CHAN_WEAPON);
 		}
-		SHTG A 3;
+		TNT1 A 3;
 	hold:
-		SHTG A 1;
-		SHTG A 1 A_Refire("hold");
+		TNT1 A 1;
+		TNT1 A 1 A_Refire("hold");
 		goto ready;
 	
 	startpump:
-		SHTG A 1{
+		TNT1 A 1{
 			if(!(invoker.pdp.twohanding && player.cmd.buttons & BT_OFFHANDATTACK)){
 				return resolvestate("ready");
 			}else{
@@ -98,7 +106,7 @@ class PDPumpShotgun:PDWeapon{
 		}
 		loop;
 	pumpback:
-		SHTG C 1{
+		TNT1 B 1{
 			// letting go of offhand attack won't abort at this stage, the only thing that will is
 			// completely taking your hand off the gun
 			if(!invoker.pdp.twohanding){
@@ -123,7 +131,7 @@ class PDPumpShotgun:PDWeapon{
 	// reload states
 	reload:
 	altfire:
-		SHTG A 1{
+		TNT1 A 1{
 			if(countinv("PDPumpShotLoaded") >= 7) return resolvestate("reloadend");
 			if(countinv("PDShotgunAmmo") > 0){
 				A_SelectWeapon("PDShellHand");
@@ -132,10 +140,10 @@ class PDPumpShotgun:PDWeapon{
 				return resolvestate("ready");
 			}
 		}
-		SHTG A 2;
+		TNT1 A 2;
 	reloading:
-		SHTG A 1{
-			if(abs(invoker.pdp.handdist - 1.0) <= 4.0 && invoker.pdp.lateralhanddist <= 3.0 && abs(invoker.pdp.verticalhanddist + 1.0) <= 4.0){
+		TNT1 A 1{
+			if(invoker.pdp.RoomscaleDistance(2.0,-1.0) < 4.0){
 				A_PlaySound("weapons/shotrack",CHAN_WEAPON);
 				A_GiveInventory("PDPumpShotLoaded",1);
 				A_TakeInventory("PDShotgunAmmo",1,TIF_NOTAKEINFINITE);
@@ -148,19 +156,19 @@ class PDPumpShotgun:PDWeapon{
 		}
 		loop;
 	reloaddelay:
-		SHTG B 14{
+		TNT1 A 14{
 			if(countinv("PDPumpShotLoaded") >= 7 || countinv("PDShotgunAmmo") < 1){
 				return resolvestate("reloadend");
 			}
 			return resolvestate(null);
 		}
-		SHTG A 3;
+		TNT1 A 3;
 		goto reloading;
 	reloadend:
-		SHTG B 12{
+		TNT1 A 12{
 			A_SelectWeapon("PDEmptyOffhand");
 		}
-		SHTG A 2;
+		TNT1 A 2;
 		goto ready;
 	}
 }
@@ -182,6 +190,7 @@ class PDDoubleShotgun:PDWeapon replaces SuperShotgun{
 		
 		PDWeapon.mass 1.2,2.0;
 		PDWeapon.twohanded true;
+		PDWeapon.sprite 'SHT2';
 	}
 	
 	states{
@@ -191,16 +200,16 @@ class PDDoubleShotgun:PDWeapon replaces SuperShotgun{
 	select:
 		TNT1 A 0 A_OnSelect();
 	select2:
-		SHT2 A 1 A_Raise(6);
+		TNT1 A 1 A_Raise(6);
 		loop;
 	deselect:
 		TNT1 A 0 A_OnDeselect();
 	deselect2:
-		SHT2 A 1 A_Lower(6);
+		TNT1 A 1 A_Lower(6);
 		loop;
 		
 	ready:
-		SHT2 A 1{
+		TNT1 A 1{
 			if(countinv("PDDoubleShotLoaded")>0)
 				A_WeaponReady();
 			else
@@ -208,24 +217,24 @@ class PDDoubleShotgun:PDWeapon replaces SuperShotgun{
 		}
 		loop;
 	fire:
-		SHT2 B 4{
+		TNT1 B 4{
 			A_TakeInventory("PDDoubleShotLoaded",1);
 			A_AlertMonsters(3072 * frandom(1.3,1.7));
-			A_PDBulletAttack(2.2,2.0,12,7,"PDPelletPuff");
-			A_MuzzleClimb(5.,6.,true);
+			A_PDBulletAttack(2.2,2.0,12,8,"PDPelletPuff");
+			A_MuzzleClimb(2.,6.,true);
 			A_PlaySound("weapons/shotgun",CHAN_WEAPON);
 		}
-		SHT2 A 1;
+		TNT1 A 1;
 	hold:
-		SHT2 A 1;
-		SHT2 A 1 A_Refire("hold");
+		TNT1 A 1;
+		TNT1 A 1 A_Refire("hold");
 		goto ready;
 	
 	// reload states
 	reload:
 	altfire:
-		SHT2 B 6;
-		SHT2 A 4{
+		TNT1 B 6;
+		TNT1 A 4{
 			if(countinv("PDDoubleShotLoaded") >= 2) return resolvestate("reloadend");
 			if(countinv("PDShotgunAmmo") > 1){
 				A_OpenShotgun2();
@@ -243,10 +252,10 @@ class PDDoubleShotgun:PDWeapon replaces SuperShotgun{
 				return resolvestate("ready");
 			}
 		}
-		SHT2 C 8;
+		TNT1 C 8;
 	reloading:
-		SHT2 C 1{
-			if(abs(invoker.pdp.handdist + 1.0) <= 3.0 && invoker.pdp.lateralhanddist <= 3.0 && abs(invoker.pdp.verticalhanddist + 4.0) <= 5.0){
+		TNT1 C 1{
+			if(invoker.pdp.RoomscaleDistance(0.0,2.0) < 3.0){
 				A_PlaySound("weapons/sshotl",CHAN_WEAPON);
 				A_GiveInventory("PDDoubleShotLoaded",2);
 				A_TakeInventory("PDShotgunAmmo",2,TIF_NOTAKEINFINITE);
@@ -257,10 +266,10 @@ class PDDoubleShotgun:PDWeapon replaces SuperShotgun{
 		}
 		loop;
 	reloadend:
-		SHT2 B 12{
+		TNT1 B 12{
 			A_SelectWeapon("PDEmptyOffhand");
 		}
-		SHT2 A 2 A_CloseShotgun2();
+		TNT1 A 2 A_CloseShotgun2();
 		goto ready;
 	}
 }
@@ -318,8 +327,9 @@ class PDEjectedShell:actor{
 	staylanded:
 		SHEL C 0 A_PlaySound("weapons/sshotl",CHAN_AUTO,0.4,pitch:1.2);
 		SHEL CC 350;
+		SHEL C 1 A_SetTics(random(0,TICRATE * 2));
 	fadeout:
-		SHEL C 12 A_FadeOut();
+		SHEL C 6 A_FadeOut(0.05);
 		loop;
 	}
 }

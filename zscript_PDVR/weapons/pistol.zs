@@ -8,6 +8,7 @@ class PDPistol:PDWeapon replaces pistol{
 		tag "Beretta 92FS";
 		
 		PDWeapon.mass 1.0,1.5;
+		PDWeapon.sprite 'PISG';
 	}
 	
 	states{
@@ -17,16 +18,16 @@ class PDPistol:PDWeapon replaces pistol{
 	select:
 		TNT1 A 0 A_OnSelect();
 	select2:
-		PISG A 1 A_Raise(12);
+		TNT1 A 1 A_Raise(12);
 		loop;
 	deselect:
 		TNT1 A 0 A_OnDeselect();
 	deselect2:
-		PISG A 1 A_Lower(9);
+		TNT1 A 1 A_Lower(9);
 		loop;
 		
 	ready:
-		PISG A 1{
+		TNT1 A 1{
 			if(countinv("PDPistolLoaded") > 0)
 				A_WeaponReady();
 			else
@@ -34,22 +35,23 @@ class PDPistol:PDWeapon replaces pistol{
 		}
 		loop;
 	fire:
-		PISG B 2{
+		TNT1 A 2{
 			A_AlertMonsters(2048 * frandom(1.0,1.5));
 			A_PDBulletAttack(0.8,0.8,1,10 * random(1,2),"PDPistolPuff",flags:CBAF_NORANDOM);
-			A_MuzzleClimb(2.,2.33);
-			A_TakeInventory("PDPistolLoaded",1);
+			A_MuzzleClimb(2.,2.,false,0);
+			A_TakeInventory("PDPistolLoaded",1,TIF_NOTAKEINFINITE);
 			A_PlaySound("weapons/pistol",CHAN_WEAPON);
 		}
 	hold:
-		PISG B 1;
-		PISG A 1 A_Refire("hold");
+		TNT1 A 1;
+		TNT1 A 1 A_Refire("hold");
 		goto ready;
 	
 	// reload states
 	reload:
 	altfire:
-		PISG A 1{
+		TNT1 A 10;
+		TNT1 A 1{
 			if(countinv("PDPistolLoaded") >= 15) return resolvestate("reloadend");
 			if(countinv("PDPistolLoaded") > 1)
 				A_TakeInventory("PDPistolLoaded",countinv("PDPistolLoaded") - 1);
@@ -61,8 +63,8 @@ class PDPistol:PDWeapon replaces pistol{
 			}
 		}
 	reloading:
-		PISG D 1{
-			if(abs(invoker.pdp.handdist - 3.0) <= 4.0 && invoker.pdp.lateralhanddist <= 3.0 && abs(invoker.pdp.verticalhanddist + 1.0) <= 4.0){
+		TNT1 A 1{
+			if(invoker.pdp.RoomscaleDistance(3.0,-3.0) < 4.0){
 				A_PlaySound("weapons/shotrack",CHAN_WEAPON);
 				int toreload = min(15,countinv("PDPistolAmmo"));
 				A_GiveInventory("PDPistolLoaded",toreload);
@@ -74,8 +76,8 @@ class PDPistol:PDWeapon replaces pistol{
 		}
 		loop;
 	reloadend:
-		PISG B 12;
-		PISG A 2;
+		TNT1 A 12;
+		TNT1 A 2;
 		goto ready;
 	}
 }

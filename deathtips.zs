@@ -1,0 +1,30 @@
+extend class PDPlayerPawn{
+	static const string PD_DEATHTIPS[] = {
+		"Subtle intermittent red flashes mean you are BLEEDING. Take care of it. Do. not. bleed. out.",
+		"Bloodloss will gradually fatigue you and eventually completely stun you. If it gets too bad, stims will help recover faster.",
+		"Getting mauled or hit with explosion shrapnel will bleed A LOT. More than you think. Patch it up fast.",
+		"Bandaging hurts A LOT, and is a little leaky. Use only in emergencies or for temporary fixes.",
+		"Shrapnel from explosions reaches farther than you think. Be careful, don't get impatient.",
+		"Pain will cause your hands to shake and interfere with your vision. Keep calm and get out of dodge.",
+		"Stun will cause you to move slowly and see double. Keep calm and take care of the threat.",
+		"Combat stims are a wonderful invention that will keep you on your feet for longer and dull the pain. DO NOT overdose.",
+		"Artifacts are there to get you through a bad situation. If it seems insurmountable, pop your favorite artifact. Beware the blood sacrifice.",
+		"You don't need that much medical supplies. And use some of those damn grenades. They're heavy.",
+		"Getting shot will often make you bleed. If you lose more than about half of your blood, you will black out, and you will not wake up.",
+		"Getting shot will fuck up your organs, muscles, and bones. Adrenaline will keep you awake through a lot, but your body can only take so much punishment.",
+		"Sometimes, you will find yourself unable to see, think, or walk, straight. Be ready to get hurt, A LOT.",
+		"If you find yourself with nowhere to run and barely able to move, you have most likely made several mistakes leading up to that. Do better.",
+		"DO NOT rush around unknown corners. Slow is smooth, smooth is fast. Take your time and do it right, or you won't last to regret it.",
+		"You can't always clear an area before entering it. Explosives help, but aren't free wins. If you have to burn an artifact, it's better than dying.",
+		"Panic drowns thought. Take your time. Seek distance or cover. Aim your weapon. Eliminate the threat. Patch wounds. Do. not. get. killed.",
+		"Slow is smooth; smooth is fast. Take your time. Sweep the doorway from edge to edge. Check the corners. Do. not. get. hit.",
+		"Enemy gunners take time to aim their weapons. Do not let them finish that. Shoot them, duck to cover, run out of their immediate line of fire. Do. not. get. shot.",
+		"If you know enemies lie in wait, you don't always have to even face them. Barring just slinking past them, you can always just use explosives. You owe these bastards nothing.",
+		"Enemies are tougher than you think. Always be ready for them to have one last attack left in them, even if they seem to be dying.",
+		"Armor can go a long way in saving your ass. Getting shot still hurts regardless. Don't assume it makes you invulnerable.",
+		"Cacodemons are surprisingly resilient. However, they don't have to bleed much to die. If it's not urgent, be patient with them.",
+		"Pinkies are armored from the front. Try to wait for their back to be exposed.",
+		"Noble demons are difficult to bleed out. Dump everything you have into them until they die.",
+		"Machinegunners will often try to hold you down with sustained fire. Be careful not to pop out of cover directly into a dozen rounds of 5.56mm."
+	};
+}

@@ -32,6 +32,7 @@ class PDMonster:actor{
 		PDMonster.armorlv 0,0;
 		PDMonster.helmet false;
 		health 100;
+		PainThreshold 5;
 		mass 150;
 		Radius 20;
 		Height 56;
@@ -61,9 +62,10 @@ class PDMonster:actor{
 		int olddamage = damage;
 		if((hashelmet || !headshot) && mod == 'penetrate'){
 			damage *= (100.0 - mularmor) / 100.0;
-			damage -= subarmor;
-			// can only be reduced to 1
-			damage = max(damage,1);
+			// only 60% subarmor on headshots; let that buckshot through!
+			damage -= subarmor * (headshot?0.6:1.0);
+			// can only be reduced to 1, 3 for headshots
+			damage = max(damage,headshot?3:1);
 			
 			// if this were for the player, armor would be damaged here
 		}
@@ -81,28 +83,28 @@ class PDMonster:actor{
 			if(headshot){
 				// 30% more wounding on headshots
 				towound *= 1.3;
-				// and an extra 2 points
-				towound += 2;
+				// and an extra 4 points
+				towound += 4;
 			}
 			
 			if(towound >= 1.0)
 				openwounds += towound;
 		}
 		
-		int absorbed = olddamage - damage;
-		if(absorbed > 0){
+		int aabsorbed = olddamage - damage;
+		if(aabsorbed > 0){
 			// blunt force damage squares with absorbed damage
 			// fortunately it's divided by 10 *before square*
 			// and causes no wounding
-			int bluntforce = absorbed / 10 + 2;
+			int bluntforce = aabsorbed / 10 + 2;
 			bluntforce *= bluntforce;
 			// blunt force will never be higher than 2/3 of total absorbed damage
-			bluntforce = min(bluntforce,absorbed * (2/3));
+			bluntforce = min(bluntforce,aabsorbed * (2/3));
 			
 			damage += bluntforce;
 		}
 		
-		// pain scaled by is damage to 0.8, getting shot HURTS but a larger
+		// pain is scaled by damage to 0.8, getting shot HURTS but a larger
 		// round will really just kill you deader, without proportionally more pain.
 		// flat additive bonus per hit as more small hits will probably
 		// hurt more than fewer larger hits.
@@ -111,17 +113,27 @@ class PDMonster:actor{
 		// stun increases more when you're already disoriented
 		// flat subtractive malus per hit so as to favor individual hits over
 		// mass amounts like buckshot.
-		int tostun = floor(stun * 0.2) + damage - 4;
+		int tostun = floor(stun * 0.2) + floor(pain * 0.2) + (damage * 1.1) - 4;
+		// half of absorbed is added to stun, to replace any missing damage from armor absorbtion
+		if(aabsorbed > 0)
+			tostun += aabsorbed / 2 + 1;
 		
 		if(headshot){
 			// headshots stun the shit out of you, but don't really affect pain
 			// you'll feel it later :)
 			stun += floor(damage / 2) - 2;
 			
-			// they also add a flat 50% extra damage unless the target is helmed
-			if(!hashelmet) damage *= 1.5;
-			// in which case it's just 20% extra
-			else damage *= 1.2;
+			// helmed targets get a 10% reduction, because of this next part
+			if(hashelmet) damage *= 0.9;
+			
+			// and then damage is raised ^1.2 to favor stronger attacks
+			damage = damage ** 1.2;
+			
+			// we subtract 5 damage just to further weaken volume of fire weapons like the vector
+			damage -= 5;
+			
+			// if the headshot damage is higher than half of the enemy's spawnhealth, then add 30%.
+			if(damage >= GetSpawnHealth() / 2.) damage *= 1.3;
 		}
 		
 		// for headshot death or pain states
@@ -141,8 +153,11 @@ class PDMonster:actor{
 		
 		if(health <= 0) return;
 		
-		if(stun > 0 && stun >= random(-10,70) && gametic%3 == 0) stun--;
+		if(stun > 0 && stun >= random(-10,70) && (gametic%3 == 0 || stun > random(100,300))) stun--;
 		if(pain > 0 && gametic%6 == 0) pain--;
+		// if overstunned or overpained, decay it faster
+		if(stun > GetSpawnHealth()) stun--;
+		if(pain > GetSpawnHealth()) pain--;
 		
 		if(openwounds > 4.0){
 			// 80 units of openwounds means 1 point of bloodloss every tick
@@ -184,9 +199,16 @@ class PDMonster:actor{
 		}
 		return false;
 	}
-	action state A_CheckStun(statelabel st = "see"){
+	action state A_CheckStun(statelabel st = "see",statelabel stealthst = "see"){
 		bool toostunned = invoker.CheckStun();
 		if(PD_DamageDebug && toostunned) console.printf(GetClassName().." is too stunned to attack");
+		
+		// also check invis! resolve to a different state (default "see") if target is too invisible to attack
+		if(invoker.target){
+			let pdp = PDPlayerPawn(invoker.target);
+			if(pdp && pdp.inviso > random(50,80)) return ResolveState(stealthst);
+		}
+		
 		if(toostunned)
 			return ResolveState(st);
 		else
@@ -218,7 +240,6 @@ class PDMonster:actor{
 		}
 	}
 	
-	// this seems to be a little broken, particularly as far as pitch goes
 	action void A_PDFireProjectile(class<actor> cls,double spread,double pitchoffs = 0.0,int flags = 0){
 		A_StartSound(attacksound,CHAN_AUTO);
 		
@@ -237,5 +258,27 @@ class PDMonster:actor{
 		
 		flags = flags | CMF_AIMDIRECTION|CMF_SAVEPITCH;
 		A_SpawnProjectile(cls,32,0,spread * frandom(-1.0,1.0),flags,pitch + pitchoffs + spread * frandom(-1.0,1.0));
+	}
+	
+	action void A_PDProjectileLead(int pspeed,actor ltarget,double maxlead = 90.){
+		int dist = Distance2D(ltarget);
+		int timetoconnect = dist / pspeed;
+		// this is the actual predicted target location on time of impact,
+		// not the difference of anything. oops
+		vector3 diff = ltarget.pos + (ltarget.vel * timetoconnect);
+		// recalculate distance based on new time-to-connect
+		// we only iterate this once, more accuracy is likely not needed unless
+		// the projectile is really slow
+		// in theory we could just use the angle to the target and the angle to
+		// where they will be in one tic, but I am lazy
+		dist = (pos - diff).Length();
+		timetoconnect = dist / pspeed;
+		diff = ltarget.pos + (ltarget.vel * timetoconnect);
+		diff.z = ltarget.pos.z;
+		
+		vector3 anglecorrection = levellocals.SphericalCoords(pos,diff,(angle,pitch));
+		
+		angle = angle - min(maxlead,anglecorrection.x);
+		angle = Normalize180(angle);
 	}
 }

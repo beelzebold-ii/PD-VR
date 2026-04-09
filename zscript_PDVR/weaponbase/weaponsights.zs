@@ -15,6 +15,7 @@ class PDWeaponSight:actor{
 		+FLATSPRITE;
 		+ROLLSPRITE;
 		+INTERPOLATEANGLES;
+		+NOTIMEFREEZE;
 		scale 0.1;
 	}
 	
@@ -34,9 +35,12 @@ class PDWeaponSight:actor{
 		
 		// they always lag behind. I can't seem to get them to not lag behind no
 		// matter how hard I try.
-		SetOrigin(weappos.pos + (dir * distance) + (0,0,2.1),true);
+		SetOrigin(weappos.pos + (dir * (distance + 8)) + (0,0,2.1),true);
 		angle = weappos.angle;
 		pitch = weappos.pitch - 90.0;
+		roll = hands.mainroll;
+		
+		A_SetRenderStyle(PD_SightAlpha,pdp.GetRenderStyle() == STYLE_FUZZY?STYLE_FUZZY:STYLE_TRANSLUCENT);
 	}
 }
 

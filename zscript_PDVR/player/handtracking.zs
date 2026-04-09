@@ -26,6 +26,7 @@ class PD_Hands:inventory{
 	}
 	
 	override void DoEffect(){
+		/*
 		actor maintracker = owner.SpawnPlayerMissile("PD_PosTracker",aimflags:0);
 		if(maintracker){
 			maintracker.master = self;
@@ -47,6 +48,18 @@ class PD_Hands:inventory{
 			offroll.master = self;
 			PD_RollTracker(offroll).offhand = true;
 		}
+		*/
+		
+		// after so long, reliable hand tracking was right there all along.
+		// I can finally have in-world weapon models too!
+		mainpos = owner.AttackPos;
+		mainangle = Normalize180(owner.AttackAngle + 90.);
+		mainpitch = -owner.AttackPitch;
+		mainroll = -owner.AttackRoll;
+		offpos = owner.OffhandPos;
+		offangle = Normalize180(owner.OffhandAngle + 90.);
+		offpitch = -owner.OffhandPitch;
+		offroll = -owner.OffhandRoll;
 		
 		if(PD_TrackDebug){
 			owner.SpawnPlayerMissile("PD_PosTrackerDebug",aimflags:0);
@@ -178,6 +191,7 @@ class PD_PosTrackerDebug:actor{
 		+THRUACTORS;
 		+BRIGHT;
 		+FORCEYBILLBOARD;
+		+NOTIMEFREEZE;
 		Radius 1;
 		Height 1;
 		Damage 0;

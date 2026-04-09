@@ -1,4 +1,9 @@
 gameinfo{
-	addeventhandlers = "pd_handtrackhandler","pd_hudhandler"
-	playerclasses = "PDPlayerPawn","PDPArmor","PDPVector","PDPShot","PDPSIG","PDPMgun"
+	addeventhandlers = "pd_handtrackhandler","pd_hudhandler","pd_oucheffecthandler","pd_fragspawner"
+	playerclasses = "PDPlayerPawn","PDPArmor","PDPVector","PDPShot","PDPSIG","PDPKastet","PDPMgun","PDPPlas"
+}
+
+damagetype stim{
+	noarmor
+	obituary = "%o was overstimulated."
 }

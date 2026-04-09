@@ -1,0 +1,20 @@
+HardwareShader PostProcess Scene{
+	Name "OuchVignette"
+	Shader "Vignette.gl" 330
+	Uniform float pain
+	Enabled
+}
+
+HardwareShader PostProcess Scene{
+	Name "OuchDesaturate"
+	Shader "Desaturate.gl" 330
+	Uniform float stun
+	Enabled
+}
+
+HardwareShader PostProcess Scene{
+	Name "OuchVignette2"
+	Shader "Vignette2.gl" 330
+	Uniform float fatigue
+	Enabled
+}

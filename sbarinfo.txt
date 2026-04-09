@@ -6,6 +6,7 @@ completeborder true;
 
 statusbar normal {
 	//Draw selected inventory item
+	//Outdated; TODO: zshud will draw an actual invbar
 	DrawSelectedInventory ITEMFLASH|ALWAYSSHOWCOUNTER|DRAWSHADOW,INDEXFONT,240,185,230,165,untranslated;
 	
 	//Draw armor icon
@@ -20,7 +21,7 @@ statusbar normal {
 	
 	IfCvarInt pd_friendlyhud,1{
 		//Draw health
-		DrawNumber 3,INDEXFONT,red,health,DRAWSHADOW|INTERPOLATE(2),150,165;
+		DrawNumber 3,INDEXFONT,red,health,DRAWSHADOW|INTERPOLATE(2),170,165;
 		//Draw bleeding indicator
 		/*InInventory pdwound,1{
 			DrawImage "BLUDC0",120,180;

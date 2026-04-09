@@ -1,3 +1,4 @@
+/* commenting out the models for the actual weapons in favor of in-world ones
 // pistol
 Model PDPistol
 { 
@@ -170,7 +171,7 @@ Model PDKVector
 	
 	FrameIndex PISG B 0 0
 }
-
+*/
 // SIG 552
 Model PDSIG
 {
@@ -253,6 +254,221 @@ Model PDMachinegun
 	NOINTERPOLATION
 	
 	FrameIndex CHGG B 0 0
+}
+
+// RGM kastet
+Model PDKastet
+{
+	Path "Models/kastet"
+	Model 0 "rgmkastet.obj"
+	Skin 0 "rgmkastet.png"
+	
+	Scale -12.0 12.0 12.0
+	Offset 0.0 -32.0 -14.0
+//	AngleOffset -90.0
+	
+	FrameIndex PISG A 0 0
+}
+
+// PLAS rifle
+Model PDPLAS
+{
+	Path "Models/Weapons/Hud/PlasmaRifle"
+	Model 0 "PlasmaRifle.md3"
+	Skin 0 "PlasmaRifle.png"
+	Scale 1.0 1.0 1.0
+	
+	FrameIndex PLSG A 0 0
+}
+Model PDPLAS
+{
+	Path "Models/Weapons/Hud/PlasmaRifle"
+	Model 0 "PlasmaRifle.md3"
+	Skin 0 "PlasmaRifle.png"
+	Scale 1.0 1.0 1.0
+	Offset 0.0 2.0 0.0
+	PitchOffset 5
+	
+	FrameIndex PLSG B 0 0
+}
+// commenting out the models for the actual weapons in favor of in-world ones */
+
+// pistol
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/Pistol"
+	Model 0 "Pistol.md3"
+	Skin 0 "Pistol.png"
+	Scale 1.0 1.0 1.0
+	Offset -26.0 0.0 5.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex PISG A 0 0
+}
+
+// pump shotgun
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/Shotgun"
+	Model 0 "Shotgun.md3"
+	Skin 0 "Shotgun.png"
+	Scale 0.9 0.9 0.9
+	Offset -35.0 0.0 5.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHTG A 0 0
+}
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/Shotgun"
+	Model 0 "Shotgun2.md3"
+	Skin 0 "Shotgun.png"
+	Scale 0.9 0.9 0.9
+	Offset -38.0 0.0 5.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHTG B 0 0
+}
+
+// double shotgun
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG.md3"
+	Skin 0 "DoubleSG.png"
+	Scale 0.75 0.75 0.75
+	Offset -27.0 0.0 5.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHT2 A 0 0
+}
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG.md3"
+	Skin 0 "DoubleSG.png"
+	Scale 0.75 0.75 0.75
+	Offset -29.0 0.0 3.0
+	PitchOffset 14;
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHT2 B 0 0
+}
+Model PDWeaponPos
+{ 
+	Path "Models/Weapons/Hud/SSG"
+	Model 0 "DoubleSG2.md3"
+	Skin 0 "DoubleSG.png"
+	Scale 0.75 0.75 0.75
+	Offset -29.0 0.0 5.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex SHT2 C 0 0
+}
+
+// submachinegun
+Model PDWeaponPos
+{
+	Path "Models/kvector"
+	Model 0 "kvector.obj"
+	Skin 0 "kvector.png"
+	
+	Scale 11.5 11.5 11.5
+	Offset 3.0 0.0 -8.0
+	AngleOffset -90.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex KVEC A 0 0
+}
+
+// SIG 552
+Model PDWeaponPos
+{
+	Path "Models/sig552"
+	Model 0 "sig552.obj"
+	Skin 0 "sig552.png"
+	
+	Scale 13.0 13.0 13.0
+	Offset 0.0 0.0 -8.0
+	AngleOffset -90.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex S552 A 0 0
+}
+
+// famas
+Model PDWeaponPos
+{
+	Path "Models/famas"
+	Model 0 "famas.obj"
+	Skin 0 "famas.png"
+	
+	Scale 13.0 13.0 13.0
+	Offset 0.0 0.0 -8.0
+	AngleOffset -90.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex FAMA A 0 0
+}
+
+// frags
+Model PDWeaponPos
+{ 
+	Path "Models/frag"
+	Model 0 "frag1.obj"
+	Skin 0 "frag1.png"
+	Scale 10.0 10.0 10.0
+	Offset 0.0 0.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex FRAG A 0 0
+}
+Model PDWeaponPos
+{ 
+	Path "Models/frag"
+	Model 0 "frag2.obj"
+	Skin 0 "frag1.png"
+	Scale 10.0 10.0 10.0
+	Offset 0.0 0.0 0.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex FRAG B 0 0
+}
+
+Model PDFragGrenade
+{ 
+	Path "Models/frag"
+	Model 0 "frag3.obj"
+	Skin 0 "frag1.png"
+	Scale 5.0 5.0 5.0
+	Offset 0.0 0.0 -1.0
+	
+	USEACTORPITCH
+	USEACTORROLL
+	
+	FrameIndex FRAG A 0 0
 }
 
 Model PDEmptyOffhand

@@ -5,7 +5,7 @@ CONST WEAP_ROTAFORCE = 6.0;
 CONST WEAP_TRECOIL = 3.0;
 CONST WEAP_RRECOIL = 12.0;
 CONST WEAP_LASEROFFSETZ = -12;
-CONST WEAP_SHOOTOFFSETZ = -20;
+CONST WEAP_SHOOTOFFSETZ = -24;
 
 extend class PDWeapon{
 	float transmass; // translatory mass
@@ -16,8 +16,13 @@ extend class PDWeapon{
 	property twohanded:twohanded;
 	property pitchoffs:pitchoffs;
 	
+	name weapsprite;
+	int weapframe;
+	property sprite:weapsprite;
+	
 	// for affecting the in-world weaponmodel
 	// takes a velocity, not a force; ignores mass
+	// also handles stripping invisibility!
 	action void A_MuzzleClimb(double transvel,double rotavel,bool twohands = false,int timer = -1){
 		let pdp = PDPlayerPawn(invoker.owner);
 		
@@ -33,8 +38,14 @@ extend class PDWeapon{
 			rotavel *= 2;
 		}
 		
+		if(!pdp.twohanding)
+			A_SetBlend("000000",0.2,min(sqrt(timer + 1.) + 1,4));
+		
 		pdp.weaponmodel.MuzzleClimb(transvel,rotavel);
 		pdp.weaponmodel.recoiltimer = timer;
+		
+		pdp.inviso = min(pdp.inviso,70);
+		pdp.inviso = max(0,pdp.inviso - 30);
 	}
 	
 	action void A_PDBulletAttack(float spreadx,float spready,int num,int dmgper,class<PDPuff> puff = "PDPuff",double pitchoffs = 0.0,int flags = 0){
@@ -65,7 +76,8 @@ class PDWeaponPos:actor{
 		+THRUACTORS;
 		+NOGRAVITY;
 		+NOBLOCKMAP;
-		scale 0.1;
+		+NOTIMEFREEZE;
+		scale 0.4;
 		alpha 0.5;
 	}
 	
@@ -78,6 +90,14 @@ class PDWeaponPos:actor{
 	}
 	
 	void MuzzleClimb(double transvel,double rotavel){
+		let pdp = PDPlayerPawn(master);
+		if(pdp.stun > 5){
+			// being stunned at all past 5 incurs a 40% recoil debuff,
+			// and an additional 1% per point past that
+			// the translational debuff is considerably weaker
+			transvel *= 1.0 + (pdp.stun * 0.01) + 0.05;
+			rotavel *= 1.0 + (pdp.stun * 0.01) + 0.35;
+		}
 		veltrans += (0.0, 0.0, transvel);
 		velrota += (0.0, -rotavel);
 	}
@@ -100,6 +120,15 @@ class PDWeaponPos:actor{
 		
 		if(!pdw)
 			return;
+		
+		// if in pain or fatigue is high enough, start shaking
+		// 0.02 degrees per point of fatigue above 30
+		// 0.04 degrees per point of pain
+		// hard caps at 4 degrees
+		float shakeintensity = min( max(0.,(pdp.fatigue - 30.) * 0.02) + pdp.pain * 0.04 ,4.0);
+		vector2 shakevector = AngleToVector(random(-180,180),frandom(0.,shakeintensity));
+		angle += shakevector.x;
+		pitch += shakevector.y;
 		
 		OwnerForce();
 		DampingForce();
@@ -124,8 +153,8 @@ class PDWeaponPos:actor{
 		double pstartalpha = 0.4;
 		vector3 ppos =(0,0,0);
 		while(pstartalpha > 0){
-			pstartalpha -= frandom(0.003,0.017);
-			ppos += particlestep * frandom(0.2,1.1);
+			pstartalpha -= frandom(0.002,0.01);
+			ppos += particlestep * frandom(0.4,1.6);
 			
 			A_SpawnParticle(pcolor1,pflags,plifetime,xoff:ppos.x,yoff:ppos.y,zoff:ppos.z,startalphaf:pstartalpha);
 		}
@@ -144,13 +173,16 @@ class PDWeaponPos:actor{
 		if(!hands) return;
 		let pdw = PDWeapon(pdp.player.readyweapon);
 		
+		// force penalty from being stunned (0.9% per point of stun)
+		double stunpenalty = 1.0 - pdp.stun * 0.009;
+		
 		// translatory
 		vector3 tdiff = hands.mainpos - pos;
 		vector3 unittdiff = tdiff / tdiff.Length();
 		float tvelTowards = veltrans dot unittdiff;
 		if(tdiff.Length() >= 1.0 + tvelTowards){
 			double force = min(WEAP_TRANSFORCE,tdiff.Length() - (1.0 + tvelTowards));
-			force = max(0.0,force);
+			force = max(0.0,force * stunpenalty);
 			if(pdw.twohanded && !pdp.twohanding) force /= 2.0;
 			// spring force: 100% for every 6 units past 6
 			double springforce = max(0.0,(tdiff.Length() - 6.) / 6.);
@@ -170,7 +202,7 @@ class PDWeaponPos:actor{
 		float rvelTowards = velrota dot unitrdiff;
 		if(rdiff.Length() >= 1.0 + rvelTowards){
 			double force = min(WEAP_ROTAFORCE,rdiff.Length() - (1.0 + rvelTowards));
-			force = max(0.0,force);
+			force = max(0.0,force * stunpenalty);
 			if(pdw.twohanded && !pdp.twohanding) force /= 2.0;
 			// spring force: 100% for every 14 degrees past 6
 			double springforce = max(0.0,(rdiff.Length() - 6.) / 14.);
@@ -183,6 +215,8 @@ class PDWeaponPos:actor{
 			if(rvelTowards >= rdiff.Length())
 				velrota -= unitrdiff * (WEAP_ROTAFORCE / pdw.rotamass);
 		}
+		
+		roll = -hands.mainroll;
 	}
 	void DampingForce(){
 		let pdp = PDPlayerPawn(master);
@@ -201,13 +235,31 @@ class PDWeaponPos:actor{
 	}
 	
 	states{
+	cache:
+		PISG A 0;
+		SHTG AB 0;
+		SHT2 ABC 0;
+		CHGG AB 0;
+		KVEC A 0;
+		S552 A 0;
+		FAMA SA 0;
+		RGMK A 0;
+		FRAG ABC 0;
 	spawn:
-		BAL1 A 0;
-	spawn2:
 		TNT1 A 1{
-			if(PD_WeapPosDebug){
-				sprite = GetSpriteIndex("BAL1");
-				A_SpawnProjectile("PD_PosTrackerDebug",0.0);
+			let pdp = PDPlayerPawn(master);
+			if(pdp && pdp.player.readyweapon && pdp.player.health > 0){
+				let pdw = PDWeapon(pdp.player.readyweapon);
+				if(pdw){
+					sprite = GetSpriteIndex(pdw.weapsprite);
+					// I forgot for a sec that weapons don't actually use their own states. they're
+					// used by these, psprites.
+					if(pdp.player.FindPSprite(1) && pdp.player.FindPSprite(1).curstate)
+						frame = pdp.player.FindPSprite(1).curstate.frame;
+				}
+			}else{
+				sprite = GetSpriteIndex('TNT1');
+				frame = 0;
 			}
 		}
 		loop;
@@ -224,6 +276,7 @@ class PD_LaserPointerPuff:actor{
 		+PUFFONACTORS;
 		+DONTSPLASH;
 		+NOTRIGGER;
+		+NOTIMEFREEZE;
 	}
 	states{
 	xdeath:

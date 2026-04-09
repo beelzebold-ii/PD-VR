@@ -76,16 +76,16 @@ class PDArmorSpawner:actor{
 class PDGreenArmor:PDArmorSpawner{
 	default{
 		PDArmorSpawner.protection 20,15;
-		PDArmorSpawner.durability 5.0,20.0;
+		PDArmorSpawner.durability 3.5,17.0;
 		PDArmorSpawner.speedpenalty 0.09;
 		PDArmorSpawner.icon "ARM1A0","ARM1";
 	}
 }
-// stops up to 32 damage; 50 damage becomes 12 damage.
+// stops up to 35 damage; 50 damage becomes 10 damage.
 class PDBlueArmor:PDArmorSpawner{
 	default{
-		PDArmorSpawner.protection 40,18;
-		PDArmorSpawner.durability 3.0,16.0;
+		PDArmorSpawner.protection 40,20;
+		PDArmorSpawner.durability 2.33,14.0;
 		PDArmorSpawner.speedpenalty 0.20;
 		PDArmorSpawner.icon "ARM2A0","ARM2";
 	}
@@ -127,8 +127,8 @@ class PDGreenArmorGiver:inventory{
 		if(arm){
 			arm.mularmor = 20;
 			arm.subarmor = 15;
-			arm.mulstrength = 5.0;
-			arm.substrength = 20.0;
+			arm.mulstrength = 3.5;
+			arm.substrength = 17.0;
 			arm.speedpenalty = 0.09;
 			arm.sicon = "ARM1A0";
 			arm.spritename = "ARM1";
@@ -144,9 +144,9 @@ class PDBlueArmorGiver:inventory{
 		let arm = PDArmor(owner.FindInventory("PDArmor"));
 		if(arm){
 			arm.mularmor = 40;
-			arm.subarmor = 18;
-			arm.mulstrength = 3.0;
-			arm.substrength = 16.0;
+			arm.subarmor = 20;
+			arm.mulstrength = 2.33;
+			arm.substrength = 14.0;
 			arm.speedpenalty = 0.20;
 			arm.sicon = "ARM2A0";
 			arm.spritename = "ARM2";

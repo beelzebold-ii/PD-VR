@@ -9,6 +9,7 @@ class PDPuff:bulletpuff{
 		+PUFFONACTORS;
 		+HITTRACER;
 		+FORCEDECAL;
+		+NOTIMEFREEZE;
 		-ALLOWPARTICLES;
 		Damagetype 'penetrate';
 		PDPuff.extra 0.0;
@@ -26,6 +27,9 @@ class PDPuff:bulletpuff{
 		// if headshot and no helm, bleed bigger
 		if(headshot && !tracer.hashelmet){
 			bNOGRAVITY = false;
+			A_SpawnItemEx("blood",zvel:frandom(0.2,1.4));
+			A_SpawnItemEx("blood",zvel:frandom(0.2,1.4));
+			A_SpawnItemEx("blood",zvel:frandom(0.2,1.4));
 			SetStateLabel("hithead");
 			return;
 		}
@@ -37,6 +41,8 @@ class PDPuff:bulletpuff{
 			return;
 		}
 		bNOGRAVITY = false;
+		if(!random(0,1))
+			A_SpawnItemEx("blood",zvel:frandom(0.0,1.0));
 		SetStateLabel("hitflesh");
 	}
 	
@@ -83,7 +89,7 @@ class PDPistolPuff:PDPuff{
 // for shotgun pellets, which puff more easily on armor
 class PDPelletPuff:PDPuff{
 	default{
-		PDPuff.extra 0.0;
+		PDPuff.extra 1.5;
 		PDPuff.puffarmor 15;
 		Scale 0.75;
 	}
@@ -107,6 +113,33 @@ class PDRiflePuff:PDPuff{
 		BLUD CBA 2;
 	hitflesh:
 		BLUD CCBA 4;
+		stop;
+	}
+}
+// for PLAS lasers, which have a different animation
+class PDPlasPuff:PDPuff{
+	default{
+		PDPuff.extra -2.0;
+		PDPuff.puffarmor 100;
+		scale 0.4;
+	}
+	states{
+	spawn:
+	crash:
+	death:
+	xdeath:
+		TNT1 A 0{
+			OnHitActor(PDMonster(tracer));
+		}
+		goto hitwall;
+	hithead:
+	hitflesh:
+	hitarmor:
+	hitwall:
+		TNT1 A 0{
+			bNOGRAVITY = true;
+		}
+		PLSE AADE 4;
 		stop;
 	}
 }

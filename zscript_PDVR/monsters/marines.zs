@@ -14,21 +14,21 @@ class PDMarineSig:PDMonster{
 		
 		Dropitem "PDSIG";
 		
-		Reactiontime 2;
+		Reactiontime 4;
 		MinMissilechance 100;
 		
-		PDMonster.armorlv 20,19;
+		PDMonster.armorlv 20,15;
 		PDMonster.helmet true;
 		
 		Translation "PDGreenMarine";
 		
-		Obituary "o% ran into another marine.";
+		Obituary "%o ran into another marine.";
 	}
 	states{
 	spawn:
-		PLAY AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		PLAY AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		PLAY A random(2,6);
-		PLAY AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		PLAY AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		PLAY A random(2,6) A_Jump(32,"idle");
 	idle:
 		PLAY BABA 12;
@@ -38,7 +38,7 @@ class PDMarineSig:PDMonster{
 		loop;
 	missile:
 		TNT1 A 0 A_CheckStun();
-		PLAY A 0 A_JumpIfCloser(random(512,4096),"missile1");
+		PLAY A 0 A_JumpIfCloser(random(256,2048),"missile1");
 		goto missile3;
 	missile1: // start close range spray
 		PLAY E 4 A_FaceTarget();
@@ -54,7 +54,7 @@ class PDMarineSig:PDMonster{
 		PLAY F 1 bright A_PDFireHitscan(24,48,1,0.7,frandom(-0.2,-0.4));
 		PLAY E 2 A_FaceTarget(2,90,0,0,FAF_MIDDLE);
 		PLAY F 1 bright A_PDFireHitscan(24,48,1,0.6,frandom(-0.1,-0.3));
-		PLAY E 12 A_JumpIfCloser(random(-128,512),"missile2",true);
+		PLAY E 12 A_JumpIfCloser(random(-32,384),"missile2",true);
 		PLAY E 0 A_Jump(64,"missile1");
 		goto see;
 	missile3: //start aiming for a long distance shot
@@ -105,7 +105,7 @@ class PDMarineSig:PDMonster{
 class PDChaingunner:PDMonster{
 	default{
 		Health 130;
-		Speed 9; // base behavior should be calling A_Chase every 2 ticks
+		Speed 7; // base behavior should be calling A_Chase every 2 ticks
 		Painchance 120;
 		Radius 20;
 		Height 56;
@@ -122,13 +122,13 @@ class PDChaingunner:PDMonster{
 		
 		PDMonster.armorlv 20,15;
 		
-		Obituary "o% was mowed down by a chaingunner.";
+		Obituary "%o was mowed down by a chaingunner.";
 	}
 	states{
 	spawn:
-		CPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		CPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		CPOS A random(2,6);
-		CPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		CPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		CPOS A random(2,6) A_Jump(32,"idle");
 	idle:
 		CPOS BABA 12;

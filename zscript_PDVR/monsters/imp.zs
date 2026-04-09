@@ -12,7 +12,7 @@ class PDFireballer:PDZombie replaces doomimp{
 		Deathsound "imp/death";
 		Activesound "imp/active";
 		
-		Speed 10;
+		Speed 9;
 		Health 120;
 		MinMissilechance 200;
 		PDMonster.bloodfactor 100./120. + 0.01;
@@ -21,9 +21,9 @@ class PDFireballer:PDZombie replaces doomimp{
 	}
 	states{
 	spawn:
-		TROO AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		TROO AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		TROO A random(2,6);
-		TROO AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		TROO AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		TROO A random(2,6) A_Jump(32,"idle");
 	idle:
 		TROO BABA 12;
@@ -35,15 +35,15 @@ class PDFireballer:PDZombie replaces doomimp{
 		TROO A 0 A_JumpIfCloser(random(512,1024),"missile1",true);
 		TROO EEEEEEE 1 A_FaceTarget(0,90,0,0,FAF_MIDDLE);
 		TROO F 4;
-		TROO G 8 A_PDFireProjectile("PDImpFireball3",0.5,0.5);
+		TROO G 8 A_PDFireProjectile("PDImpFireball3",0.5,-0.5);
 		TROO F 4;
 	missile0:
 		TROO E 1{
 			if(!random(0,3)) A_SetTics(random(20,30));
 		}
-		TROO E random(5,15) A_FaceTarget(0,90,0,0,FAF_MIDDLE);
+		TROO E random(5,15) A_FaceTarget(0,90,0,0,FAF_TOP);
 		TROO F 4;
-		TROO G 8 A_PDFireProjectile("PDImpFireball3",0.5,0.5);
+		TROO G 8 A_PDFireProjectile("PDImpFireball3",0.5,-0.5);
 		TROO F 4 A_JumpIf(Distance2D(target) > random(256,1024) && random(0,5),"missile0");
 		goto see;
 	missile1:
@@ -51,27 +51,27 @@ class PDFireballer:PDZombie replaces doomimp{
 		TROO A 0 A_Jump(96,"missile2");
 		TROO EEEEEE 1 A_FaceTarget(0,90,0,0,FAF_MIDDLE);
 		TROO F 4;
-		TROO G 8 A_PDFireProjectile("PDImpFireball",1.5,1.0);
+		TROO G 8 A_PDFireProjectile("PDImpFireball",1.5,-1.0);
 		TROO F 6;
 		goto see;
 	missile2:
 		TROO EEEEEE 1 A_FaceTarget(0,90,0,0,FAF_MIDDLE);
 		TROO F 4;
-		TROO G 8 A_PDFireProjectile("PDImpFireball",2.5,1.0);
+		TROO G 8 A_PDFireProjectile("PDImpFireball",2.5,-1.0);
 		TROO F 4;
 		TROO EEEE 1 A_FaceTarget(0,90,0,0,FAF_MIDDLE);
 		TROO F 4;
-		TROO G 8 A_PDFireProjectile("PDImpFireball",2.5,1.5);
+		TROO G 8 A_PDFireProjectile("PDImpFireball",2.5,-1.5);
 		TROO F 4;
 		TROO EEEEEEEEE 1 A_FaceTarget(0,90,0,0,FAF_MIDDLE);
 		TROO F 4;
 		TROO G 12{
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
-			A_PDFireProjectile("PDImpFireball2",3.5,1.5);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.0);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.0);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.0);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.5);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.5);
+			A_PDFireProjectile("PDImpFireball2",3.5,-1.5);
 		}
 		TROO F 8;
 		goto see;
@@ -112,6 +112,7 @@ class PDImpFireball:actor{
 		Height 8;
 		Damagefunction (10 * random(2,4));
 		Damagetype 'hot';
+		DeathSound "imp/shotx";
 	}
 	states{
 	spawn:

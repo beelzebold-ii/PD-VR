@@ -59,7 +59,7 @@ class PDMachinegun:PDWeapon{
 		CHGG B 1{
 			A_AlertMonsters(2048 * frandom(1.0,1.5));
 			A_PDBulletAttack(0.6,0.6,1,11 * random(2,4),"PDRiflePuff",flags:CBAF_NORANDOM);
-			A_MuzzleClimb(1.,0.37,true,0);
+			A_MuzzleClimb(0.6,0.24,true,0);
 			A_TakeInventory("PDMGunLoaded",1);
 			A_PlaySound("weapons/pistol",CHAN_WEAPON);
 		}
@@ -73,6 +73,7 @@ class PDMachinegun:PDWeapon{
 	// reload states
 	reload:
 	altfire:
+		CHGG A 10;
 		CHGG A 1{
 			if(countinv("PDMGunLoaded") >= 80) return resolvestate("reloadend");
 			if(countinv("PDMGunLoaded") > 5)
@@ -86,7 +87,7 @@ class PDMachinegun:PDWeapon{
 		}
 	reloading:
 		CHGG A 1{
-			if(abs(invoker.pdp.handdist - 4.0) <= 4.0 && invoker.pdp.lateralhanddist <= 5.0 && abs(invoker.pdp.verticalhanddist - 2.0) <= 4.0){
+			if(invoker.pdp.RoomscaleDistance(1.0,-2.0,10.0) < 4.0){
 				A_PlaySound("weapons/shotrack",CHAN_WEAPON);
 				int toreload = min(80,countinv("PDRifleAmmo"));
 				A_GiveInventory("PDMGunLoaded",toreload);

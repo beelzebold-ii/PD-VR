@@ -5,12 +5,20 @@ AddOptionMenu "OptionsMenu"{
 OptionMenu "PDVROptions"{
 	Title "Peaceful Destruction VR Options"
 	
+	StaticText "*  VISUAL CHANGES  *"
+	StaticText " "
 	Option "Friendlier HUD", PD_FriendlyHud, "OnOff"
 	StaticText "Displays full health and armor durability and ammo numbers"
 	StaticText "on the hud, instead of making you keep track."
 	StaticText " "
-	Slider "Laser Dot Range", PD_LaserPointerDist, 0.0,1.0,0.1,1
+	Slider "Laser Dot range", PD_LaserPointerDist, 0.0,1.0,0.1,1
 	StaticText "How far the laser pointer dot reaches."
+	StaticText " "
+	Slider "Weapon sight opacity", PD_SightAlpha, 0.0,1.0,0.1,1
+	StaticText "How opaque or translucent weapon sights are."
+	StaticText " "
+	StaticText " "
+	StaticText "*  BALANCE CHANGES  *"
 	StaticText " "
 	Option "Encumberance", PD_Encumberance, "OnOff"
 	StaticText "Whether or not your ammo and weapons weigh you down."
@@ -20,6 +28,20 @@ OptionMenu "PDVROptions"{
 	StaticText "does not affect vanilla enemies and only applies to damage"
 	StaticText "that actually gets through armor. (not blunt force dmg either.)"
 	StaticText " "
+	Option "Pain/stun", PD_PainStun, "OnOff"
+	StaticText "Whether getting hurt will, well, hurt."
+	StaticText "These affect your aim and movement."
+	StaticText " "
+	StaticText "Screen Effects"
+	Slider "Pain", PD_VisPain, 0.0,1.0,0.1,1
+	Slider "Stun", PD_VisStun, 0.0,1.0,0.1,1
+	StaticText "Scales the intensity of screen effects from pain and stun."
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText "*  DEBUG SETTINGS  *"
+	StaticText " "
 	SubMenu "Experimental QZDoom Settings", "ExperimentalMenu"
 	StaticText " "
 	Option "Hand Tracking Debug", PD_TrackDebug, "OnOff"
@@ -28,6 +50,7 @@ OptionMenu "PDVROptions"{
 	Option "Damage Debug", PD_DamageDebug, "OnOff"
 	Option "Armor Debug", PD_ArmorDebug, "OnOff"
 	Option "Headshot Debug", PD_HeadshotDebug, "OnOff"
+	Option "Pain/Stun Debug", PD_PainStunDebug, "OnOff"
 	StaticText "Some debugging toggles."
 	StaticText " "
 }

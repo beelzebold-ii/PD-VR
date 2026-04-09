@@ -2,9 +2,9 @@
 class PDZombie:PDMonster{
 	default{
 		Health 100;
-		Speed 9; // base behavior should be calling A_Chase every 2 ticks
+		Speed 8; // base behavior should be calling A_Chase every 2 ticks
 		Painchance 240;
-		Radius 20;
+		Radius 19;
 		Height 56;
 		Seesound "grunt/sight";
 		Attacksound "grunt/attack";
@@ -24,9 +24,9 @@ class PDPistolZombie:PDZombie replaces zombieman{
 	}
 	states{
 	spawn:
-		POSS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		POSS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		POSS A random(2,6);
-		POSS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		POSS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		POSS A random(2,6) A_Jump(32,"idle");
 	idle:
 		POSS BABA 12;
@@ -38,12 +38,12 @@ class PDPistolZombie:PDZombie replaces zombieman{
 		TNT1 A 0 A_CheckStun();
 		POSS E 2 A_FaceTarget(); // pre-face target so that its starting angle for the attack is already there
 		POSS EEE random(4,6) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		POSS F 3 bright A_PDFireHitscan(10,20,1,3.0,-0.0);
+		POSS F 3 bright A_PDFireHitscan(10,20,1,1.2,-0.0);
 		POSS E random(4,10) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		POSS F 3 bright A_PDFireHitscan(10,20,1,5.5,-2.0);
+		POSS F 3 bright A_PDFireHitscan(10,20,1,1.5,-1.0);
 		POSS E 10 A_JumpIfCloser(random(128,1024),"missile2",true);
 		POSS E random(4,10) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		POSS F 3 bright A_PDFireHitscan(10,20,1,5.5,-2.0);
+		POSS F 3 bright A_PDFireHitscan(10,20,1,1.7,-1.5);
 		POSS E 10;
 		goto see;
 	missile2:
@@ -51,9 +51,9 @@ class PDPistolZombie:PDZombie replaces zombieman{
 			if(!random(0,1)) A_SetTics(random(10,20));
 		}
 		POSS E random(6,10) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		POSS F 3 bright A_PDFireHitscan(10,20,1,5.5,-2.0);
+		POSS F 3 bright A_PDFireHitscan(10,20,1,2.0,-1.5);
 		POSS E random(7,10) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		POSS F 3 bright A_PDFireHitscan(10,20,1,5.5,-3.0);
+		POSS F 3 bright A_PDFireHitscan(10,20,1,2.5,-2.0);
 		POSS E 12 A_JumpIfCloser(random(32,512),"missile2",true);
 		goto see;
 	pain:
@@ -96,13 +96,13 @@ class PDShotgunZombie:PDZombie{
 		Attacksound "shotguy/attack";
 		Dropitem "PDPumpShotgun";
 		
-		PDMonster.armorlv 10,5;
+		PDMonster.armorlv 10,4;
 	}
 	states{
 	spawn:
-		SPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		SPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		SPOS A random(2,6);
-		SPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		SPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		SPOS A random(2,6) A_Jump(32,"idle");
 	idle:
 		SPOS BABA 12;
@@ -113,7 +113,7 @@ class PDShotgunZombie:PDZombie{
 	missile:
 		TNT1 A 0 A_CheckStun();
 		SPOS E 4 A_FaceTarget(); // pre-face target so that its starting angle for the attack is already there
-		SPOS EEEE random(4,7) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
+		SPOS EEEE random(2,6) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
 		SPOS F 0{
 			angle -= frandom(-2.5,2.5);
 		}
@@ -126,7 +126,7 @@ class PDShotgunZombie:PDZombie{
 		SPOS E 10;
 		SPOS E random(8,10) A_FaceTarget(30,90,0,0,FAF_MIDDLE);
 		SPOS F 0{
-			angle -= frandom(-4.5,4.5);
+			angle -= frandom(-3.,3.);
 		}
 		SPOS F 3 bright A_PDFireHitscan(5,13,12,1.7,frandom(-1.0,1.0));
 		SPOS E random(8,10) A_FaceTarget(30,90,0,0,FAF_MIDDLE);
@@ -164,13 +164,13 @@ class PDVectorZombie:PDZombie{
 		Dropitem "PDKVector";
 		Translation "178:178=204:204", "172:172=197:197";
 		
-		PDMonster.armorlv 10,5;
+		PDMonster.armorlv 10,1;
 	}
 	states{
 	spawn:
-		SPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		SPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		SPOS A random(2,6);
-		SPOS AAAAAAAAAAAAAAAA random(3,5) A_LookEx(0,0,8192,8192,160);
+		SPOS AAAAAAAAAAAAAAAA random(3,5) A_Look();
 		SPOS A random(2,6) A_Jump(32,"idle");
 	idle:
 		SPOS BABA 12;
@@ -181,26 +181,26 @@ class PDVectorZombie:PDZombie{
 	missile:
 		TNT1 A 0 A_CheckStun();
 		SPOS E 4 A_FaceTarget(); // pre-face target so that its starting angle for the attack is already there
-		SPOS EEEE random(3,6) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
-		SPOS F 1 bright A_PDFireHitscan(10,30,1,1.0,0.3);
+		SPOS EEEE random(1,5) A_FaceTarget(15,90,0,0,FAF_MIDDLE);
+		SPOS F 1 bright A_PDFireHitscan(12,30,1,1.0,0.3);
 		SPOS E 1 A_FaceTarget(2,90,0,0,FAF_MIDDLE);
-		SPOS F 1 bright A_PDFireHitscan(10,30,1,1.3,frandom(-0.5,0.1));
+		SPOS F 1 bright A_PDFireHitscan(12,30,1,1.3,frandom(-0.5,0.1));
 		SPOS E 12 A_JumpIfCloser(random(128,2048),"missile2",true); // if far enough away, just do a short burst
 		SPOS E 0 A_Jump(32,"see");
 		goto see;
 	missile2:
 		SPOS E 1 A_FaceTarget(2,90,0,0,FAF_MIDDLE);
-		SPOS F 1 bright A_PDFireHitscan(10,30,1,1.3,frandom(-0.5,0.1));
+		SPOS F 1 bright A_PDFireHitscan(10,26,1,1.3,frandom(-0.5,0.1));
 		SPOS E 1 A_FaceTarget(2,90,0,0,FAF_MIDDLE);
-		SPOS F 1 bright A_PDFireHitscan(10,30,1,1.65,frandom(-1.0,-0.2));
-		SPOS E 12 A_JumpIfCloser(random(-128,512),"missile2",true); // spray n pray at really close range
+		SPOS F 1 bright A_PDFireHitscan(10,26,1,1.65,frandom(-1.0,-0.2));
+		SPOS E 12 A_JumpIfCloser(random(-256,512),"missile2",true); // spray n pray at really close range
 		SPOS E 0 A_Jump(32,"see");
 	missile3:
 		SPOS E 0 A_CheckStun();
 		SPOS E 1 A_FaceTarget(2,90,0,0,FAF_MIDDLE);
-		SPOS F 1 bright A_PDFireHitscan(10,30,1,1.9,frandom(-1.2,-0.2));
-		SPOS E random(8,10) A_FaceTarget(30,90,0,0,FAF_MIDDLE); // briefly re aim
-		SPOS E 12 A_JumpIfCloser(random(32,1024),"missile2",true); // and immediately start firing again
+		SPOS F 1 bright A_PDFireHitscan(10,26,1,1.9,frandom(-1.2,-0.2));
+		SPOS E random(8,12) A_FaceTarget(30,90,0,0,FAF_MIDDLE); // briefly re aim
+		SPOS E 12 A_JumpIfCloser(random(-32,1024),"missile2",true); // and immediately start firing again
 		SPOS E 0 A_Jump(96,"see");
 		goto missile; // do a more thorough readjustment
 	pain:

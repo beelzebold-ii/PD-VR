@@ -1,6 +1,9 @@
 //note: def check what using weapon.a_setcrosshair does
 //note: player has member offhandweapon which is the readyweapon in the offhand
 //note: look into playerpawn.offhanddir and playerpawn.attackdir // I'm an idiot and forgot abt that entirely
+// it appears however that there exist AttackPos, AttackAngle, AttackPitch, and AttackRoll in the player
+// actor. which is huge!
+// replacing Attack with Offhand gives the offhand values.
 //note: lineattack flags seems to include a flag for if the offhand is used, hopefully so do projectile ones
 // that would make hand tracking almost trivial with an eventhandler spawning things from player hands
 // and tracking those actors' positions as the player's hand positions
@@ -12,7 +15,10 @@ version "3.6"
 
 #include "zscript_PDVR/player/handtracking.zs"
 #include "zscript_PDVR/player/player.zs"
+#include "zscript_PDVR/player/tick.zs"
 #include "zscript_PDVR/player/roomscale.zs"
+//#include "zscript_PDVR/player/artifactbelt.zs"
+#include "zscript_PDVR/player/oucheffects.zs"
 
 #include "zscript_PDVR/weaponbase/weapon.zs"
 #include "zscript_PDVR/weaponbase/weaponmodel.zs"
@@ -27,6 +33,8 @@ version "3.6"
 #include "zscript_PDVR/weapons/vector.zs"
 #include "zscript_PDVR/weapons/rifles.zs"
 #include "zscript_PDVR/weapons/machinegun.zs"
+#include "zscript_PDVR/weapons/launcher.zs"
+#include "zscript_PDVR/weapons/plasrifle.zs"
 #include "zscript_PDVR/weapons/sights.zs"
 #include "zscript_PDVR/weapons/spawners.zs"
 
@@ -35,6 +43,13 @@ version "3.6"
 #include "zscript_PDVR/monsters/zombies.zs"
 #include "zscript_PDVR/monsters/imp.zs"
 #include "zscript_PDVR/monsters/marines.zs"
+#include "zscript_PDVR/monsters/pinkyspectre.zs"
+#include "zscript_PDVR/monsters/nobles.zs"
+#include "zscript_PDVR/monsters/flying.zs"
 
 #include "zscript_PDVR/weapons/invmanager.zs"
+#include "zscript_PDVR/weapons/medicalmanager.zs"
+#include "zscript_PDVR/weapons/frags.zs"
 #include "zscript_PDVR/items/armor.zs"
+#include "zscript_PDVR/items/artifacts.zs"
+#include "zscript_PDVR/items/bonii.zs"

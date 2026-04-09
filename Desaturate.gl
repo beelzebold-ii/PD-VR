@@ -1,0 +1,40 @@
+//made by Niko Chevrier for Spellbullet
+
+//#version 330
+
+//uniform float stun;
+
+void main(){
+	float realstun = clamp(stun,0.,1.);
+	
+	vec4 thisColor = texture(InputTexture, TexCoord);
+	
+	//seeing double
+	//not based on clamped value
+	float divergence = stun / 100.0;
+	vec2 diverged_coords = TexCoord;
+	diverged_coords.x -= divergence;
+	diverged_coords.y += divergence;
+	vec4 sep1 = texture(InputTexture, diverged_coords);
+	diverged_coords.x += divergence*2.0;
+	diverged_coords.y -= divergence*2.0;
+	vec4 sep2 = texture(InputTexture, diverged_coords);
+	vec4 diverged_color = mix(sep1,sep2,0.5);
+	
+	thisColor = diverged_color;
+	
+	//average of RGB values
+	float desatVal = (thisColor.r + thisColor.g + thisColor.b) / 3.0;
+	
+	//first we add some brightness, then we multiply up as well
+	float brightA = mix(0.0,0.1,realstun);
+	float brightM = mix(1.0,1.2,realstun);
+	
+	//keep the original alpha
+	vec4 desatColor = vec4(desatVal,desatVal,desatVal,thisColor.a);
+	
+	//mix between original color and desaturated color from stun
+	vec4 affectedColor = mix(thisColor,desatColor,realstun);
+	
+	FragColor = vec4((affectedColor.r + brightA) * brightM,(affectedColor.g + brightA) * brightM,(affectedColor.b + brightA) * brightM,thisColor.a);
+}

@@ -114,3 +114,49 @@ class PDAmmoBoxHand:PDOffhandWeapon{
 		goto ready;
 	}
 }
+class PDRocketHand:PDOffhandWeapon{
+	default{
+		tag "rocket";
+	}
+	states{
+	spawn:
+		RKTA A -1;
+		stop;
+	select:
+		TNT1 A 0 A_Raise();
+		loop;
+	deselect:
+		TNT1 A 0 A_Lower();
+		loop;
+	
+	ready:
+		RKAG A 1 A_WeaponReady(WRF_NOFIRE);
+		loop;
+	fire:
+		TNT1 A 0;
+		goto ready;
+	}
+}
+class PDBatteryHand:PDOffhandWeapon{
+	default{
+		tag "battery";
+	}
+	states{
+	spawn:
+		CELL A -1;
+		stop;
+	select:
+		TNT1 A 0 A_Raise();
+		loop;
+	deselect:
+		TNT1 A 0 A_Lower();
+		loop;
+	
+	ready:
+		CELG A 1 A_WeaponReady(WRF_NOFIRE);
+		loop;
+	fire:
+		TNT1 A 0;
+		goto ready;
+	}
+}

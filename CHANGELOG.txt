@@ -1,0 +1,23 @@
+## commit 4
+
+getting hurt pains and stuns you (fairly configurable)
+
+running uses stamina, fairly forgiving stamina cap and regen
+
+limited passive health regen
+
+getting shot or bitten will make you bleed (to be configurable in the future)
+
+medical items to patch bleeding
+
+more weapons and better rendered weapons (some of them)
+
+more complete enemy roster (most of doom 1 roster finished)
+
+improved reloading and general hand tracking
+
+artifacts which are inventory usable powerups to get you out of a bad situation
+
+health and armor bonuses
+
+gameplay tips which show when you die

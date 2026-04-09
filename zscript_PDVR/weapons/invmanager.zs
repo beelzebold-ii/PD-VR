@@ -1,9 +1,35 @@
 // I can't come up with a funny comment to put here idk
 class PDInvManager:PDWeapon{
 	int selected;
+	
+	override void DrawWeaponHud(){
+		HUDFont monofont = HUDFont.Create(smallfont,8,monospacing:Mono_CellCenter);
+		let Inv = PDInvManager(self);
+		for(int i = -2;i < 3;i++){
+			int index = (Inv.selected + i) % BURDEN_ITEMS_CNT;
+			if(index < 0) index += BURDEN_ITEMS_CNT;
+			double a = (i==0)?1.0:0.333;
+			class<inventory> classn = PDPlayerPawn.BURDEN_ITEMS[index];
+			let item = pdp.FindInventory(classn);
+			if(item){
+				if(item is "ammo"){
+					statusbar.drawstring(monofont,index..(item.bISHEALTH?". [M]":". [A]")..item.GetTag().." "..item.amount.."/"..item.maxamount,(60 + i * 10,60 + i * 10),0,Font.CR_GOLD,a);
+				}else{
+					statusbar.drawstring(monofont,index..". [W]"..item.GetTag(),(60 + i * 10,60 + i * 10),0,Font.CR_GOLD,a);
+				}
+			}else{
+				statusbar.drawstring(monofont,index..". [?]no item",(60 + i * 10,60 + i * 10),0,Font.CR_BROWN,a);
+			}
+		}
+		statusbar.drawstring(monofont,"offhandattack/attack - left/right",(20,110),0,Font.CR_ICE);
+		statusbar.drawstring(monofont,"altattack - drop item",(20,120),0,Font.CR_ICE);
+	}
+	
 	default{
 		tag "Inventory manager";
-		PDWeapon.mass 0.8,1.33;
+		weapon.SlotNumber 0;
+		
+		PDWeapon.mass 1.1,1.33;
 	}
 	states{
 	select:
@@ -22,9 +48,9 @@ class PDInvManager:PDWeapon{
 			if(player.cmd.buttons & BT_OFFHANDATTACK){
 				return resolvestate("offattack");
 			}
-			if(player.cmd.buttons & BT_OFFHANDALTATTACK){
-				return resolvestate("offaltattack");
-			}
+// 			if(player.cmd.buttons & BT_OFFHANDALTATTACK){
+// 				return resolvestate("offaltattack");
+// 			}
 			return resolvestate(null);
 		}
 		loop;
@@ -41,7 +67,7 @@ class PDInvManager:PDWeapon{
 				invoker.selected = (BURDEN_ITEMS_CNT - 1);
 		}
 		goto ready;
-	offaltattack:
+	altfire:
 		TNT1 A 25{
 			class<inventory> classn = PDPlayerPawn.BURDEN_ITEMS[invoker.selected];
 			let item = FindInventory(classn);
@@ -51,15 +77,19 @@ class PDInvManager:PDWeapon{
 			}
 		}
 		goto ready;
-	altfire:
-		TNT1 A 1 A_SelectWeapon("PDEmptyOnHand");
-		goto ready;
 	}
 	
 	static const int DropAmt[] = {
+		// ammo
 		15,
 		4,
 		40,
-		1,1,1,1,1,1
+		1,
+		1,
+		1,
+		// meds
+		1,4,
+		// weapons
+		1,1,1,1,1,1,1,1,1,1
 	};
 }
