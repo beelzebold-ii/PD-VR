@@ -22,5 +22,16 @@ health and armor bonuses
 
 gameplay tips which show when you die
 
-## commit 5
+## commit 5-6
 
+blackout shader replaced with a more interesting/convincing one
+
+weapons are now scaled a bit better
+
+fixed crash related to being shot when unarmored (I think?)
+
+stim overdose has been made less instantly lethal for a chance of survival of slight overdoses
+
+bloodloss has less of an immediate effect on stamina until you are actively fainting
+
+stims and medikits now immediately cure a slight amount of bloodloss
