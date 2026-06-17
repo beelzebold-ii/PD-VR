@@ -21,3 +21,6 @@ artifacts which are inventory usable powerups to get you out of a bad situation
 health and armor bonuses
 
 gameplay tips which show when you die
+
+## commit 5
+

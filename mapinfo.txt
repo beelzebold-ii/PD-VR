@@ -5,5 +5,5 @@ gameinfo{
 
 damagetype stim{
 	noarmor
-	obituary = "%o was overstimulated."
+	obituary = "%o overdosed."
 }

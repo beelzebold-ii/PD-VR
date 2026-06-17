@@ -28,10 +28,12 @@ class PDFragThrower:PDWeapon{
 	
 	ready:
 		TNT1 A 1{
-			if(countinv("PDFragAmmo") > 0)
+			if(countinv("PDFragAmmo") > 0){
+				frame = 0;
 				A_WeaponReady();
-			else{
-				A_SelectWeapon("PDEmptyOnHand");
+			}else{
+				// A_SelectWeapon("PDEmptyOnHand");
+				frame = 3;
 				A_WeaponReady(WRF_NOFIRE);
 			}
 		}

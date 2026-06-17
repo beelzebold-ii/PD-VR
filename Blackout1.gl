@@ -1,0 +1,39 @@
+// made by Niko Chevrier for PDVR.
+// this is just the horizontal blur pass.
+
+//#version 330
+
+float blurWeight( float r, float dist ){
+    if(r <= 0.0) return 0.0;
+    return 1.0 - (abs(dist) / r);
+}
+
+void main(){
+    // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = vec2(TexCoord);
+    
+    FragColor = texture(InputTexture,TexCoord);
+    
+    // radius 0.0 to 0.02 from 60% to 180% intensity
+	// needs to be lower cos there's a considerable amount of the screen that isn't visible in questzdoom
+    float blurRadius = (clamp(fatigue - 0.6, 0.0, 1.2) / 1.2) * 0.02;
+    vec4 blurredColor = FragColor;
+    // one step is 0.001 uv
+    float stepsize = 0.001;
+    if(blurRadius >= stepsize){
+        // for normalization we tally up the collective weights from each step
+        float totalweight = 1.0;
+        // horizontal pass:
+        for(float i = stepsize;i < blurRadius;i+=stepsize){
+            // to the left
+            blurredColor += vec4(texture(InputTexture,TexCoord - vec2(i,0.0)).rgb,1.0) * blurWeight(blurRadius,i);
+            // to the right
+            blurredColor += vec4(texture(InputTexture,TexCoord + vec2(i,0.0)).rgb,1.0) * blurWeight(blurRadius,i);
+            // add weight:
+            totalweight += blurWeight(blurRadius,i) * 2.0;
+        }
+        // divide value down by the collective weights
+        blurredColor /= vec4(vec3(totalweight),1.0);
+    }
+    FragColor = blurredColor;
+}

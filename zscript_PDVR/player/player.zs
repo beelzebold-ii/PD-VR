@@ -24,6 +24,7 @@ class PDPlayerPawn:doomplayer{
 	
 	// health will only regen up to this much
 	int regenhealth;
+	// TODO:
 	// your max health will be hindered by this (unless on stims)
 	// if it reaches 70 you just die
 	int bodydamage;
@@ -169,7 +170,7 @@ class PDPlayerPawn:doomplayer{
 			float towound = damage * damage / 40.0 + 1.0;
 			if(inflictor is "PDPuff" && damage > 2){
 				let pdb = PDPuff(inflictor);
-				towound += pdb.extrawound * ((100.0 - arm.mularmor) / 100.0);
+				towound += pdb.extrawound * ((100.0 - (arm?arm.mularmor:0.0)) / 100.0);
 			}
 			
 			if(towound >= 1.0)

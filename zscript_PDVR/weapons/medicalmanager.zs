@@ -188,11 +188,13 @@ class PDMedManager:PDWeapon{
 		invoker.pdp.pain = min(invoker.pdp.pain,100);
 		
 		// stims last roughly 40 seconds
-		// give or take abt 3 sec
+		// give or take abt 5-6 sec
 		invoker.pdp.stimulation += random(650,750) * 2;
 		
 		invoker.pdp.regenhealth += 15;
 		invoker.pdp.regenhealth = min(100,invoker.pdp.regenhealth);
+		
+		invoker.pdp.bloodloss = max(invoker.pdp.bloodloss - 10,0);
 		
 		TakeInventory("PDStimpack",1);
 	}
@@ -208,6 +210,8 @@ class PDMedManager:PDWeapon{
 		
 		invoker.pdp.regenhealth += 25;
 		invoker.pdp.regenhealth = min(100,invoker.pdp.regenhealth);
+		
+		invoker.pdp.bloodloss = max(invoker.pdp.bloodloss - 10,0);
 		
 		TakeInventory("PDMedikit",1);
 	}

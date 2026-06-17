@@ -14,7 +14,13 @@ HardwareShader PostProcess Scene{
 
 HardwareShader PostProcess Scene{
 	Name "OuchVignette2"
-	Shader "Vignette2.gl" 330
+	Shader "Blackout1.gl" 330
+	Uniform float fatigue
+	Enabled
+}
+HardwareShader PostProcess Scene{
+	Name "OuchVignette3"
+	Shader "Blackout2.gl" 330
 	Uniform float fatigue
 	Enabled
 }

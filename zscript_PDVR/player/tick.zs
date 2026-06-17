@@ -1,7 +1,7 @@
 // this code was getting kinda long, so I'm putting it here
 
 const STIM_OVERDOSE = 1700;
-const STIM_ODAMOUNT = 175; // for every 175 tics of stim overdose, add 1 dmg
+const STIM_ODAMOUNT = 35 * 10; // for every 10 seconds of stim overdose, add 1 dmg
 
 extend class PDPlayerPawn{
 	// ticks of stimpack effect
@@ -26,8 +26,8 @@ extend class PDPlayerPawn{
 				// that may sound like a lot but consider their relatively short duration
 				bloodloss += ((openwounds - patchedwounds * 0.95) / 300.) * (stimulation?0.5:1.0);
 				// bloodloss adds base fatigue and beyond 60% also adds base stun
-				stun = max(stun,bloodloss - 60.);
-				fatigue = max(fatigue,bloodloss * 0.75);
+				stun = max(stun,bloodloss - 70.);
+				fatigue = max(fatigue,bloodloss * 0.25);
 				// subtle red flash which gets more frequent the more you're bleeding
 				// I almost missed a divide by zero here lmao
 				// this case is another w for n/0 = inf tho
@@ -51,6 +51,7 @@ extend class PDPlayerPawn{
 					if(bloodloss >= 120.)
 						DamageMobj(self,bleedcauser,10,'bleedout');
 				}
+				if(bloodloss >= 110. && gametic % 3 != 0) fatigue++;
 			}
 		}else{
 			// I don't rly like that thing where you face the enemy that killed you
@@ -132,7 +133,7 @@ extend class PDPlayerPawn{
 			fatigue++;
 			
 			if(deathtics == 0)
-				deathtip = PD_DEATHTIPS[random(0,25)];
+				deathtip = PD_DEATHTIPS[random(0,26)];
 			
 			deathtics++;
 		}
@@ -172,13 +173,24 @@ extend class PDPlayerPawn{
 			fatigue--;
 		}
 		
-		// if you're overdosing, take a point of damage for every 5 seconds of overdose duration, every 20 tics
-		if(gametic % 20 == 0){
+		// if you're overdosing, take a point of damage for every 10 seconds of overdose duration, every 35 tics
+		if(gametic % 35 == 0){
 			if(stimulation > STIM_OVERDOSE){
 				int overstim = stimulation - STIM_OVERDOSE;
 				overstim = floor(overstim / STIM_ODAMOUNT) + 1;
 				
 				DamageMobj(self,null,overstim,"stim");
+				bloodloss += overstim;
+				pain += overstim;
+				
+				// 10% chance every second of losing 20-30% blood, gaining a lot of pain and stun, and taking some damage
+				if(!random(0,9)){
+					bloodloss += random(20,30);
+					pain += 30;
+					stun += 30;
+					fatigue += 10;
+					DamageMobj(self,null,random(3,6) * 3,"stim");
+				}
 			}
 		}
 	}

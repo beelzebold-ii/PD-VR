@@ -77,7 +77,7 @@ class PDWeaponPos:actor{
 		+NOGRAVITY;
 		+NOBLOCKMAP;
 		+NOTIMEFREEZE;
-		scale 0.4;
+		scale 0.334;
 		alpha 0.5;
 	}
 	

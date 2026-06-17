@@ -22,6 +22,7 @@ extend class PDPlayerPawn{
 		"If you know enemies lie in wait, you don't always have to even face them. Barring just slinking past them, you can always just use explosives. You owe these bastards nothing.",
 		"Enemies are tougher than you think. Always be ready for them to have one last attack left in them, even if they seem to be dying.",
 		"Armor can go a long way in saving your ass. Getting shot still hurts regardless. Don't assume it makes you invulnerable.",
+		"Bleeding too much? Take a stim! They slow bleeding by a lot and help numb the pain so you can suture carefully. They even speed up blood recovery!",
 		"Cacodemons are surprisingly resilient. However, they don't have to bleed much to die. If it's not urgent, be patient with them.",
 		"Pinkies are armored from the front. Try to wait for their back to be exposed.",
 		"Noble demons are difficult to bleed out. Dump everything you have into them until they die.",

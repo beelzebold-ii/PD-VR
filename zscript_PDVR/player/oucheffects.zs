@@ -23,15 +23,19 @@ class PD_OuchEffectHandler:StaticEventHandler{
 				PPShader.SetUniform1f("OuchVignette","pain",pain);
 				
 				PPShader.SetUniform1f("OuchVignette2","fatigue",pdp.fatigue / 210. + 0.55);
+				PPShader.SetUniform1f("OuchVignette3","fatigue",pdp.fatigue / 210. + 0.55);
 			}else{
 				//player is dead.
 				PPShader.SetUniform1f("OuchDesaturate","stun",0.0);
 				PPShader.SetUniform1f("OuchVignette","pain",1.1*PD_VisPain);
 				let pdp = PDPlayerPawn(players[consoleplayer].mo);
-				if(pdp && pdp.fatigue)
+				if(pdp && pdp.fatigue){
 					PPShader.SetUniform1f("OuchVignette2","fatigue",pdp.fatigue / 420. + 0.55);
-				else
+					PPShader.SetUniform1f("OuchVignette3","fatigue",pdp.fatigue / 420. + 0.55);
+				}else{
 					PPShader.SetUniform1f("OuchVignette2","fatigue",1.1);
+					PPShader.SetUniform1f("OuchVignette3","fatigue",1.1);
+				}
 			}
 		}else{
 			PPShader.SetUniform1f("OuchDesaturate","stun",0.0);
